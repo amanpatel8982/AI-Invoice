@@ -64,7 +64,24 @@ const invoiceSchema = new mongoose.Schema({
 
     currency: { type: String, default: "INR" },
     status: { type: String, enum: ["draft", "unpaid", "paid", "overdue"], default: "draft" },
+    
+    //FOR ASSETS HANDLING
+    logoDataUrl: { type: String, default: null },
+    stampDataUrl: { type: String, default: null },
+    signatureDataUrl: { type: String, default: null },
 
+    signatureName: { type: String, default: "" },
+    signatureTitle: { type: String, default: "" },
 
+    taxPercent: { type: Number, default: 18 },
+
+    subtotal: { type: Number, default: 0 },
+    tax: { type: Number, default: 0 },
+    total: { type: Number, default: 0 },
+}, {
+    timestamps: true
 });
 
+const Invoice = mongoose.models.Invoice || mongoose.model('Invoice', invoiceSchema);
+
+export default Invoice;
