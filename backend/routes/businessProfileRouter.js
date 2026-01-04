@@ -3,9 +3,8 @@ import multer from "multer";
 import path from "path";
 
 import { clerkMiddleware } from "@clerk/express";
-import { createBusinessProfile, updateBusinessProfile } from "../controllers/businessProfileController.js";
-import { create } from "domain";
-import { get } from "http";
+import { createBusinessProfile, updateBusinessProfile ,getMyBusinessProfile} from "../controllers/businessProfileController.js";
+
 
 const businessProfileRouter = express.Router();
 
@@ -52,7 +51,9 @@ businessProfileRouter.put(
     updateBusinessProfile
 );
 
-businessProfileRouter.get("/me", getBusinessProfile);
+  
+
+ businessProfileRouter.get("/me", getMyBusinessProfile);
 
 export default businessProfileRouter;
 

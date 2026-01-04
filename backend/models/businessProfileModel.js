@@ -1,6 +1,5 @@
-import { sign } from "jsonwebtoken";
 import mongoose from "mongoose";
-import { trim } from "validator";
+
 
 const businessProfileSchema = new mongoose.Schema({
     owner:{
