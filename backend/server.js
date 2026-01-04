@@ -4,6 +4,7 @@ import 'dotenv/config';
 import { clerkMiddleware } from '@clerk/express'
 import { connectDB } from './config/db.js';
 import path from 'path';
+import invoiceRouter from './routes/invoiceRouter.js';
 
 
 const app = express();
@@ -17,7 +18,16 @@ app.use(express.urlencoded({limit:"20mb", extended: true}));
 
 // database
 connectDB();
+
+
 //Routes
+app.use('/uploads', express.static(path.join('./uploads')));
+
+app.use('/api/invoices', invoiceRouter);
+
+
+
+
 
 app.get('/',(req, res)=> {
     res.send("API WORKING")
