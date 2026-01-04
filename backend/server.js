@@ -5,6 +5,7 @@ import { clerkMiddleware } from '@clerk/express'
 import { connectDB } from './config/db.js';
 import path from 'path';
 import invoiceRouter from './routes/invoiceRouter.js';
+import businessProfileRouter from './routes/businessProfileRouter.js';
 
 
 const app = express();
@@ -24,6 +25,7 @@ connectDB();
 app.use('/uploads', express.static(path.join('./uploads')));
 
 app.use('/api/invoices', invoiceRouter);
+app.use('/api/businessProfile', businessProfileRouter);
 
 
 
