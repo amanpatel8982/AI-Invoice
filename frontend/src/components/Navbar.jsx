@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { navbarStyles } from '../assets/dummyStyles'
 import logo from '../assets/logo.png';
 import {Link} from 'react-router-dom';
@@ -6,6 +6,9 @@ import {Link} from 'react-router-dom';
 
 
 const Navbar = () => {
+
+  const [open, setOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   return (
     <header className={navbarStyles.header}>
       <div className={navbarStyles.container}>
