@@ -109,15 +109,40 @@ export async function updateBusinessProfile (req, res) {
     if (body.signatureOwnerTitle !== undefined) update.signatureOwnerTitle = body.signatureOwnerTitle;
     if (body.defaultTaxPercent !== undefined) update.defaultTaxPercent = Number(body.defaultTaxPercent);
 
-    }
-        
-        catch (error)
-        {
+    const updated =  await BusinessProfile.findByIdAndUpdate(id, update, {
+        new: true,
+        runValidators: true
+    });
 
+    return res.status(200).json({ 
+        success: true,
+         data: updated , 
+         message: "Profile Updated " });
+    }
+
+    catch (error) {
+        console.error("Error in updateBusinessProfile:", error);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+}
+
+// to get mybusiness profile
+       
+export async function getMyBusinessProfile (req, res) {
+    try {
+        const { userId } = getAuth(req);
+        if (!userId) {
+            return res.status(401).json({ success: false, message: "Authentication required" });
+        }
+        const profile = await BusinessProfile.findOne({ owner: userId });
+        if (!profile) {
+            return res.status(404).json({ success: false, message: "Business Profile not found" });
         }
 
+        return  res.status(200).json({ success: true, data: profile });
+
+    } catch (error) {
+        console.error("Error in GetMyBusinessProfile:", error);
+        res.status(500).json({ success: false, message: "Server Error" });
     }
-
-            
-
-       
+}
