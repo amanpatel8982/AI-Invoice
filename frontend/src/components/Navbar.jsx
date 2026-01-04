@@ -24,8 +24,10 @@ const Navbar = () => {
             <a href="#pricing" className={navbarStyles.navLinkInactive}>
               Pricing
             </a>
-
           </div>
+          </div>
+
+          <div className='flex items-center gap-4'>
 
           </div>
         </nav>
