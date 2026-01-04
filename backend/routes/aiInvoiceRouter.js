@@ -206,11 +206,14 @@ aiInvoiceRouter.post("/generate", async (req, res) => {
         console.error("AI invoice generation error:", err);
         return  res.status(500).json({
             success: false,
-            message: "Server error during AI invoice generation"
+            message: " AI invoice generation failed",
+            detail: err?.message || String(err)
         });
     }
 
 });
+
+export default aiInvoiceRouter;
 
 
         
