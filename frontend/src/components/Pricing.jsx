@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { pricingStyles, pricingCardStyles } from '../assets/dummyStyles'
 import {useAuth , useClerk} from '@clerk/clerk-react';
 import {useNavigate} from 'react-router-dom';
+import { SignedIn , SignedOut} from '@clerk/clerk-react';
 
 const PricingCard = ({
     title,
@@ -33,16 +34,132 @@ const PricingCard = ({
 
       <div className={pricingCardStyles.content}>
         <div className={pricingCardStyles.header}>
-          <h3 className={`${pricingCardStyles.title} ${
-            isPopular ? pricingCardStyles.titlePopular :
-          }`}>
-
+          <h3 
+            className={`${pricingCardStyles.title} ${
+            isPopular 
+            ? pricingCardStyles.titlePopular 
+            : pricingCardStyles.titleRegular
+          }`}
+          >
+            {title}    
           </h3>
-
+          <p className={pricingCardStyles.description}>{description}</p>
         </div>
 
-      </div>
+        <div className={pricingCardStyles.priceContainer}>
+          <div className={pricingCardStyles.priceWrapper}>
+            <span
+              className={`${pricingCardStyles.price} ${
+                isPopular
+                ? pricingCardStyles.pricePopular
+                : pricingCardStyles.priceRegular
+              }`}
+            >
+              {price}
+              </span>
+              {period && (
+                <span className={pricingCardStyles.period}>/{period}</span>
+              )}
+          </div>
+          {isAnnual && (
+            <div className={pricingCardStyles.annualBadge}>Save 20% annually</div>
+          )}
+       </div>
 
+       
+ <ul className={pricingCardStyles.featuresList}>
+        {features.map((feature, index) => (
+          <li key={index} className={pricingCardStyles.featureItem}>
+            <div
+              className={`
+                ${pricingCardStyles.featureIcon}
+                ${
+                  isPopular
+                    ? pricingCardStyles.featureIconPopular
+                    : pricingCardStyles.featureIconRegular
+                }
+              `}
+            >
+              <svg
+                className="w-3 h-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={3}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+            <span className={pricingCardStyles.featureText}>{feature}</span>
+          </li>
+        ))}
+      </ul>
+
+      {/* CTA area: show different button/label depending on auth state */}
+      <div style={{ marginTop: 12 }}>
+        <SignedIn>
+          <button
+            type="button"
+            onClick={() =>
+              onCtaClick && onCtaClick({ title, isPopular, isAnnual })
+            }
+            className={`
+              ${pricingCardStyles.ctaButton}
+              ${
+                isPopular
+                  ? pricingCardStyles.ctaButtonPopular
+                  : pricingCardStyles.ctaButtonRegular
+              }
+            `}
+          >
+            <span
+              className={`
+                ${pricingCardStyles.ctaButtonText}
+                ${
+                  isPopular
+                    ? pricingCardStyles.ctaButtonTextPopular
+                    : pricingCardStyles.ctaButtonTextRegular
+                }
+              `}
+            >
+              {isPopular ? "Get Started" : "Choose Plan"}
+            </span>
+          </button>
+        </SignedIn>
+
+        <SignedOut>
+          <button
+            type="button"
+            onClick={() =>
+              onCtaClick &&
+              onCtaClick(
+                { title, isPopular, isAnnual },
+                { openSignInFallback: true }
+              )
+            }
+            className={`
+              ${pricingCardStyles.ctaButton}
+              ${pricingCardStyles.ctaButtonRegular}
+            `}
+          >
+            <span className={pricingCardStyles.ctaButtonText}>
+              Sign in to get started
+            </span>
+          </button>
+        </SignedOut>
+      </div>
+    </div>
+
+    {isPopular && (
+      <>
+      <div className={pricingCardStyles.cornerAccent1}></div>
+      <div className={pricingCardStyles.cornerAccent2}></div>
+      </>
+    )}
     </div> 
 );
 
@@ -215,9 +332,51 @@ const Pricing = () => {
               </button>
             </div>
           </div>
+
+          <div className={pricingStyles.grid}>
+            {currentPlans.map((plan,index) => (
+              <PricingCard 
+              key= {plan.title}
+              {...plan}
+              delay={index * 100}
+              onCtaClick={handleCtaClick}
+              />
+            ))}
+         </div>
+
+         <div className={pricingStyles.additionalInfo}>
+          <div className={pricingStyles.featuresCard}>
+            <h3 className={pricingStyles.featuresTitle}>All plans include</h3>
+            <div className={pricingStyles.featuresGrid}>
+              
+              {[
+                "Secure cloud storage",
+                "Mobile-friendly interface",
+                "Automatic backups",
+                "Real-time notifications",
+                "Multi-currency support",
+                "Tax calculation",
+              ].map((feature, index) => (
+                <div key={index} className={pricingStyles.featureItem}>
+                  <div className={pricingStyles.featureDot}></div>
+                  <span>{feature}</span>
+                  </div>
+              ))}
+            </div>
+          </div>
+         </div>
+
+         <div className={pricingStyles.faqCta}>
+           <p className={pricingStyles.faqText}>
+             Have question about pricing?{" "}
+             <button className={pricingStyles.contactLink}>
+                Contact our sales team →
+             </button>
+           </p>
+         </div>
          </div>
     </section>
-  )
-}
+  );
+};
 
-export default Pricing
+export default Pricing;
