@@ -1,0 +1,223 @@
+import React, { useState } from 'react'
+import { pricingStyles, pricingCardStyles } from '../assets/dummyStyles'
+import {useAuth , useClerk} from '@clerk/clerk-react';
+import {useNavigate} from 'react-router-dom';
+
+const PricingCard = ({
+    title,
+  price,
+  period,
+  description,
+  features = [],
+  isPopular = false,
+  isAnnual = false,
+  delay = 0,
+  onCtaClick,
+}) => (
+    <div 
+      className={`${pricingCardStyles.card} ${
+        isPopular ? pricingCardStyles.cardPopular : pricingCardStyles.cardPopular
+      }`}
+       style={{transitionDelay: `${delay}ms` }}
+    >
+      {isPopular && (
+        <div className={pricingCardStyles.popularBadge}>
+          <div className={pricingCardStyles.popularBadgeContent}>
+            Most Popular
+          </div>
+        </div>
+      )}
+
+      {isPopular && <div className={pricingCardStyles.gradientOverlay}/>}
+      <div className={pricingCardStyles.animatedBorder}></div>
+
+      <div className={pricingCardStyles.content}>
+        <div className={pricingCardStyles.header}>
+          <h3 className={`${pricingCardStyles.title} ${
+            isPopular ? pricingCardStyles.titlePopular :
+          }`}>
+
+          </h3>
+
+        </div>
+
+      </div>
+
+    </div> 
+);
+
+
+const Pricing = () => {
+  const [billingPeriod, setBillingPeriod] = useState("monthly");
+  const clerk = useClerk();
+  const {isSignedIn} = useAuth();
+  const navigate = useNavigate();
+
+   const plans = {
+    monthly: [
+      {
+        title: "Starter",
+        price: "₹0",
+        period: "month",
+        description: "Perfect for freelancers and small projects",
+        features: [
+          "5 invoices per month",
+          "Basic AI parsing",
+          "Standard templates",
+          "Email support",
+          "PDF export",
+        ],
+        isPopular: false,
+      },
+      {
+        title: "Professional",
+        price: "₹499",
+        period: "month",
+        description: "For growing businesses and agencies",
+        features: [
+          "Unlimited invoices",
+          "Advanced AI parsing",
+          "Custom branding",
+          "Priority support",
+          "Advanced analytics",
+          "Team collaboration (3 members)",
+          "API access",
+        ],
+        isPopular: true,
+      },
+      {
+        title: "Enterprise",
+        price: "₹1,499",
+        period: "month",
+        description: "For large organizations with custom needs",
+        features: [
+          "Everything in Professional",
+          "Unlimited team members",
+          "Custom workflows",
+          "Dedicated account manager",
+          "SLA guarantee",
+          "White-label solutions",
+          "Advanced security",
+        ],
+        isPopular: false,
+      },
+    ],
+    annual: [
+      {
+        title: "Starter",
+        price: "₹0",
+        period: "month",
+        description: "Perfect for freelancers and small projects",
+        features: [
+          "5 invoices per month",
+          "Basic AI parsing",
+          "Standard templates",
+          "Email support",
+          "PDF export",
+        ],
+        isPopular: false,
+        isAnnual: false,
+      },
+      {
+        title: "Professional",
+        price: "₹399",
+        period: "month",
+        description: "For growing businesses and agencies",
+        features: [
+          "Unlimited invoices",
+          "Advanced AI parsing",
+          "Custom branding",
+          "Priority support",
+          "Advanced analytics",
+          "Team collaboration (3 members)",
+          "API access",
+        ],
+        isPopular: true,
+        isAnnual: true,
+      },
+      {
+        title: "Enterprise",
+        price: "₹1,199",
+        period: "month",
+        description: "For large organizations with custom needs",
+        features: [
+          "Everything in Professional",
+          "Unlimited team members",
+          "Custom workflows",
+          "Dedicated account manager",
+          "SLA guarantee",
+          "White-label solutions",
+          "Advanced security",
+        ],
+        isPopular: false,
+        isAnnual: true,
+      },
+    ],
+  };
+
+  const currentPlans = plans[billingPeriod];
+
+  function handleCtaClick (planMeta, flags = {} ){
+    if(flags.openSignInFallback || !isSignedIn) {
+      if(clerk && typeof clerk.openSignIn === 'function'){
+        clerk.openSignIn({redirectUrl:"/app/create-invoice"});
+    } else {
+      navigate("/sign-in");
+    }
+    return;
+  }
+
+  navigate("/app/create-invoice" , {
+    state: {
+      selectedPlan: planMeta.title || null},
+    })
+  };
+
+
+  return (
+    <section id="pricing" className={pricingStyles.section}>
+      <div className={pricingStyles.bgElement1}></div>
+      <div className={pricingStyles.bgElement2}></div>
+      <div className={pricingStyles.bgElement3}></div>
+
+         <div className={pricingStyles.container}>
+          <div className={pricingStyles.headerContainer}>
+            <div className={pricingStyles.badge}>
+              <span className={pricingStyles.badgeDot}></span>
+              <span className={pricingStyles.badgeText}>Transparent Pricing</span>
+            </div>
+
+            <h2 className={pricingStyles.title}>
+              simple,{" "}
+              <span className={pricingStyles.titleGradient}>Fair Pricing</span>
+            </h2>
+            <p className={pricingStyles.description}>
+              Start free, upgrade as you grow. No hidden fees, no suprise charges.
+            </p>
+
+            <div style={{marginTop: 12}} className={pricingStyles.billingToggle}>
+              <button onClick={() => setBillingPeriod("monthly")}
+                className={`${pricingStyles.billingButton} ${
+                  billingPeriod === "monthly" ? pricingStyles.billingButtonActive :pricingStyles.billingButtonInactive
+                }`}
+                >
+                  Monthly
+              </button>
+              <button onClick={() => setBillingPeriod("annual")}
+                className={`${pricingStyles.billingButton} ${
+                  billingPeriod === "annual"
+                   ? pricingStyles.billingButtonActive 
+                   :pricingStyles.billingButtonInactive
+                }`}
+                >
+                  Annual
+                  <span className={pricingStyles.billingBadge}>Save 20%</span>
+              </button>
+            </div>
+          </div>
+         </div>
+    </section>
+  )
+}
+
+export default Pricing
