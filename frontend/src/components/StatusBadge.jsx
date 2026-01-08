@@ -52,7 +52,7 @@ const StatusIcons = {
   ),
 };
 
- const StatusBadge = ({status ="", size = "default", showIcon = true }) => {
+  export const StatusBadge = ({status ="", size = "default", showIcon = true }) => {
       const s = (status || "").toLowerCase();
       
   const statusConfig = {
@@ -93,6 +93,8 @@ const StatusIcons = {
     },
   };
 
+  
+
 
 
 const config = statusConfig[s] || statusConfig.default;
@@ -125,10 +127,33 @@ const IconComponent = StatusIcons[config.icon] || StatusIcons.draft;
 
         {( s === "unpaid" ||  s === "overdue") && (
             <div className="relative z-10">
+                <div className={`w-1.5 h-1.5 rounded-full bg-current animate-pulse`}
+                /> 
            </div>
         )}
     </div>
   )
 };
+
+// status with count
+
+export function StatusWithCount({status, count, size="default"}) {
+    return (
+        <div className="inline-flex items-center gap-2 group">
+            <StatusBadge status={status} size={size}/>
+
+            {count !== undefined && (
+                <span
+                className="text-xs text-gray-500 font-medium bg-gray-100
+                 px-2 py-1 rounded-full group-hover:bg-gray-200 transition-colors duration-200"
+                >
+                    {count}
+
+                </span>
+            )}
+
+        </div>
+    )
+}
 
 export default StatusBadge;

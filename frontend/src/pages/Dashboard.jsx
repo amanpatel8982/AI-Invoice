@@ -3,7 +3,7 @@ import { dashboardStyles } from '../assets/dummyStyles'
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@clerk/clerk-react';
 import KpiCard from '../components/KpiCard';
-import { StatusBadge } from '../components/StatusBadge';
+import { StatusBadge } from '../components/StatusBadge.jsx';
 
 
 

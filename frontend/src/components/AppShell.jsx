@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react'
-import { appShellStyles } from '../assets/dummyStyles'  
+import { appShellStyles, } from '../assets/dummyStyles'  
 import logo from '../assets/logo.png';
 import { Link, Outlet, useNavigate, NavLink } from 'react-router-dom';
 import { useClerk ,useUser} from '@clerk/clerk-react';
@@ -429,7 +429,10 @@ const AppShell = () => {
         )}
 
         {/* MAIN CONTENT NAVBAR*/}
-        <div className='flex-1 min-w-0'>
+        <div className='flex-1 min-w-0' style={{
+          position: "relative",
+          zIndex:20,
+        }}>
           <header
           className={`${appShellStyles.header} ${
             scrolled
