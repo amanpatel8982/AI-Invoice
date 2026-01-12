@@ -63,9 +63,7 @@ function readJSON(key, fallback = null) {
 function writeJSON(key, val) {
   try {
     localStorage.setItem(key, JSON.stringify(val));
-  } catch {
-    //
-  }
+  } catch {}
 }
 function getStoredInvoices() {
   return readJSON("invoices_v1", []) || [];
@@ -311,9 +309,7 @@ export default function InvoicePreview() {
           setProfile(normalized);
           try {
             writeJSON("business_profile", normalized);
-          } catch {
-            //
-          }
+          } catch {}
         }
       } catch (err) {
         console.warn("Error fetching profile:", err);
@@ -343,9 +339,7 @@ export default function InvoicePreview() {
     return () => {
       try {
         document.title = prev;
-      } catch {
-        //
-      }
+      } catch {}
     };
   }, [invoice]);
 
