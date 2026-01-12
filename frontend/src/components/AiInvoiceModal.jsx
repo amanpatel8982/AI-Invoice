@@ -92,6 +92,12 @@ const AiInvoiceModal = ({open, onClose, onGenerate, initialText=""}) => {
               null}
           </div>
             )}
+
+            <div className={aiInvoiceModalStyles.actions}>
+                <AnimatedButton onClick={handleGenerateClick} isLoading={loading}
+                disabled={loading} label="Generate" />
+
+            </div>
         </div>
     </div>
   );
