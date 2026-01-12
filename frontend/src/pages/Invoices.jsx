@@ -525,7 +525,9 @@ export default function InvoicesPage() {
             let errJson = null;
             try {
               errJson = errText ? JSON.parse(errText) : null;
-            } catch {}
+            } catch {
+              //
+            }
             const errMsg =
               (errJson && (errJson.message || errJson.detail)) ||
               errText ||
