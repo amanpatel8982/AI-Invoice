@@ -325,7 +325,7 @@ const Dashboard = () => {
       .slice()
       .sort(
         (a, b) =>
-          (Date.parse(b.issueDate || 0) || 0) -
+          (Date.parse(b.issueDate || 0) || 0)-
           (Date.parse(a.issueDate || 0) || 0)
       )
       .slice(0, 5);
@@ -415,7 +415,7 @@ const Dashboard = () => {
 
                 <span className={dashboardStyles.quickStatsValue}>
                   {kpis.totalInvoices > 0 
-                  ? ((kpis.paidCount / kpis.totalInvoices) * 100).toFixed(1)
+                  ? ((kpis.paidCount / kpis.totalInvoices)*100).toFixed(1)
                 : 0} %
                 </span>
               </div>
