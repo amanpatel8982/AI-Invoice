@@ -1,15 +1,18 @@
 import express from "express";
 import multer from "multer";
 import path from "path";
+import { requireAuth } from "@clerk/express";
 
-import { clerkMiddleware } from "@clerk/express";
+//import { clerkMiddleware } from "@clerk/express";
 import { createBusinessProfile, updateBusinessProfile ,getMyBusinessProfile} from "../controllers/businessProfileController.js";
 
 
 const businessProfileRouter = express.Router();
 
 
-businessProfileRouter.use(clerkMiddleware());
+//businessProfileRouter.use(clerkMiddleware());
+businessProfileRouter.use(requireAuth());
+
 
 // Multer setup for file uploads
 

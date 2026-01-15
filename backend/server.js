@@ -7,6 +7,7 @@ import path from 'path';
 import invoiceRouter from './routes/invoiceRouter.js';
 import businessProfileRouter from './routes/businessProfileRouter.js';
 import aiInvoiceRouter from './routes/aiInvoiceRouter.js';
+import { requireAuth } from "@clerk/express";
 
 
 const app = express();

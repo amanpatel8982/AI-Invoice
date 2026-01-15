@@ -25,7 +25,9 @@ function uploadedFilesToUrls(req) {
 
 export async function createBusinessProfile (req, res) {
     try {
-        const { userId } = getAuth(req);
+        // const { userId } = getAuth(req);
+        const userId = req.auth.userId;
+
 
         if (!userId) {
             return res.status(401).json({ success: false, message: "Authentication required" });
@@ -66,7 +68,11 @@ export async function createBusinessProfile (req, res) {
 
 export async function updateBusinessProfile (req, res) { 
     try {
-        const { userId } = getAuth(req);    
+        // const { userId } = getAuth(req);  
+        const userId = req.auth.userId;  
+       
+      
+
         if (!userId) {
             return res.status(401).json({ success: false, message: "Authentication required" });
         }
