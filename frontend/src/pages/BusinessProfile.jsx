@@ -353,10 +353,10 @@ async function handleSave(e) {
         <div className={businessProfileStyles.headerContainer}>
           <h1 className={businessProfileStyles.headerTitle}>Business Profile</h1>
           <p className={businessProfileStyles.headerSubtitle}>
-             Configure your company <details>, branding assets and invoice defaults</details>
+             Configure your company , branding assets and invoice defaults
           </p>
 
-          {isSignedIn && (
+          {!isSignedIn && (
             <div style={{
                 marginTop:12,
                 color: '#92400e',
@@ -370,7 +370,7 @@ async function handleSave(e) {
           )}
         </div>
 
-        <form onSubmit={handleSave} className={businessProfileStyles}>
+        <form onSubmit={handleSave} className={businessProfileStyles.pageContainer}>
             {/* business info*/}
             <div className={businessProfileStyles.cardContainer}>
                 <div className={businessProfileStyles.cardHeaderContainer}>
@@ -399,14 +399,11 @@ async function handleSave(e) {
                         <input className={businessProfileStyles.input} 
                         value={meta.businessName || ""} 
                         onChange={(e) => updateMeta("businessName", e.target.value)}
-                        placeholder="Enter Your business name"
-
-                        
-                        />
+                        placeholder="Enter Your business name"/>
                     </div>
                     <div>
                         <label className={businessProfileStyles.label}>
-                            Business Name
+                            Email
                         </label>
                         <input className={businessProfileStyles.input} 
                         value={meta.email || ""} 
@@ -422,32 +419,35 @@ async function handleSave(e) {
                         <textarea rows={3}
                         className={businessProfileStyles.textarea} 
                         value={meta.address || ""} 
-                        onChange={(e) => updateMeta("email", e.target.value)}
+                        onChange={(e) => updateMeta("address", e.target.value)}
                         placeholder="Enter your business address" 
                         ></textarea>
                     </div>
 
                       <div>
-                        <label className={businessProfileStyles.label}>
-                            Phone
-                        </label>
-                        <input className={businessProfileStyles.input} 
-                        value={meta.phone || ""} 
-                        onChange={(e) => updateMeta("phone", e.target.value)}
-                        placeholder="+1 (555) 123-4567"                        
-                        />
-                    </div>
+  <label className={businessProfileStyles.label}>
+    Phone
+  </label>
+  <input
+    className={businessProfileStyles.input}
+    value={meta.phone || ""}
+    onChange={(e) => updateMeta("phone", e.target.value)}
+    placeholder="+1 (555) 123-4567"
+  />
+</div>
 
-                      <div>
-                        <label className={businessProfileStyles.label}>
-                            GST Number
-                        </label>
-                        <input className={businessProfileStyles.input} 
-                        value={meta.gst || ""} 
-                        onChange={(e) => updateMeta("phone", e.target.value)}
-                        placeholder="27AAAPL123C1ZV"                        
-                        />
-                    </div>
+<div>
+  <label className={businessProfileStyles.label}>
+    GST Number
+  </label>
+  <input
+    className={businessProfileStyles.input}
+    value={meta.gst || ""}
+    onChange={(e) => updateMeta("gst", e.target.value)}   // ✅ FIX
+    placeholder="27AAAPL1234C1ZV"
+  />
+</div>
+
                 </div>
             </div>
 
@@ -582,7 +582,7 @@ async function handleSave(e) {
             </div>
           </div>
         </div>
-        {/*STAMP AND SIFNATURE */}
+      
 
         
         {/* Stamp & Signature */}
