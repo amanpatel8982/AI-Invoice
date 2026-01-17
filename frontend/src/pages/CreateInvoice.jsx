@@ -191,21 +191,41 @@ export default function CreateInvoice() {
   const isEditing = Boolean(id && id !== "new");
 
   // Clerk auth hooks
-  const { getToken, isSignedIn } = useAuth();
+  //const { getToken, isSignedIn } = useAuth();
+  const { getToken, isSignedIn, isLoaded } = useAuth();
+
 
   // helper to obtain token with a retry
+  // const obtainToken = useCallback(async () => {
+  //   if (typeof getToken !== "function") return null;
+  //   try {
+  //     let token = await getToken({ template: "default" }).catch(() => null);
+  //     if (!token) {
+  //       token = await getToken({ forceRefresh: true }).catch(() => null);
+  //     }
+  //     return token;
+  //   } catch (err) {
+  //     return null;
+  //   }
+  // }, [getToken]);
   const obtainToken = useCallback(async () => {
-    if (typeof getToken !== "function") return null;
-    try {
-      let token = await getToken({ template: "default" }).catch(() => null);
-      if (!token) {
-        token = await getToken({ forceRefresh: true }).catch(() => null);
-      }
-      return token;
-    } catch (err) {
-      return null;
+  if (!isLoaded) return null;        // 🔥 MOST IMPORTANT
+  if (!isSignedIn) return null;
+  if (typeof getToken !== "function") return null;
+
+  try {
+    let token = await getToken().catch(() => null);
+
+    if (!token) {
+      token = await getToken({ forceRefresh: true }).catch(() => null);
     }
-  }, [getToken]);
+
+    return token;
+  } catch {
+    return null;
+  }
+}, [getToken, isLoaded, isSignedIn]);
+
 
   // invoice & items state
   function buildDefaultInvoice() {
